@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional and comedy video prompt generator with AI">
+    <meta name="theme-color" content="#000000">
+    <title>Video Prompt Generator</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    
+    <!-- iOS Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="VidPrompt">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <h1 id="mainTitle">🎬 Video Prompt Generator</h1>
+            <p class="subtitle" id="mainSubtitle">Choose your mode below</p>
+            
+            <div class="api-config">
+                <label>Generator Mode:</label>
+                <select id="generatorMode" onchange="updateModeUI()">
+                    <option value="professional">🎯 Professional Mode</option>
+                    <option value="comedy">🎭 Comedy Mode</option>
+                </select>
+                
+                <label>LLM Provider:</label>
+                <select id="llmProvider" onchange="updateProviderUI()">
+                    <option value="openai">OpenAI (GPT-4)</option>
+                    <option value="xai">xAI (Grok-4-Fast)</option>
+                    <option value="anthropic">Anthropic (Claude)</option>
+                    <option value="ollama">Ollama (Local)</option>
+                </select>
+                
+                <div id="openaiKeySection" style="display: none;">
+                    <label>OpenAI API Key:</label>
+                    <input type="password" id="openaiKey" placeholder="sk-...">
+                    <small style="color: #888; font-size: 11px;">Your API key is stored locally and only sent to OpenAI.</small>
+                </div>
+                
+                <div id="xaiKeySection" style="display: none;">
+                    <label>xAI API Key:</label>
+                    <input type="password" id="xaiKey" placeholder="xai-...">
+                    <small style="color: #888; font-size: 11px;">Your API key is stored locally and only sent to xAI.</small>
+                </div>
+                
+                <div id="anthropicKeySection" style="display: none;">
+                    <label>Anthropic API Key:</label>
+                    <input type="password" id="anthropicKey" placeholder="sk-ant-...">
+                    <small style="color: #888; font-size: 11px;">Your API key is stored locally and only sent to Anthropic.</small>
+                </div>
+                
+                <div id="ollamaSection" style="display: none;">
+                    <label>Ollama Server URL:</label>
+                    <input type="text" id="ollamaUrl" placeholder="e.g., http://localhost:11434 or https://your-ollama.com">
+                    <label>Ollama Model:</label>
+                    <input type="text" id="ollamaModel" placeholder="e.g., llama3.2:3b, llama3:latest, deepseek-r1:7b">
+                    <small style="color: #888; font-size: 11px;">For local use: http://localhost:11434 | For remote: your Ollama server URL</small>
+                </div>
+            </div>
+
+            <label style="font-weight: 600; margin-bottom: 5px; display: block;">Your Ideas:</label>
+            <a class="example-link" onclick="fillExample()">Load example</a>
+            <textarea id="ideaInput" placeholder=""></textarea>
+            
+            <div class="button-group">
+                <button class="generate-btn" onclick="generatePrompt()">✨ Generate Prompt</button>
+                <button class="clear-btn" onclick="clearInputs()">🗑️ Clear</button>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <span id="loadingText">Generating your video prompt...</span>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h2 style="margin: 0;">Generated Prompts <span style="font-size: 12px; color: #888; font-weight: normal;">(editable)</span></h2>
+                <div style="display: flex; gap: 8px;">
+                    <button class="icon-btn" onclick="copyCurrentPrompt()" title="Copy current prompt">📋</button>
+                    <button class="icon-btn" onclick="copyAllPrompts()" title="Copy all 5 prompts">📑</button>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab(0)">1</button>
+                <button class="tab-btn" onclick="switchTab(1)">2</button>
+                <button class="tab-btn" onclick="switchTab(2)">3</button>
+                <button class="tab-btn" onclick="switchTab(3)">4</button>
+                <button class="tab-btn" onclick="switchTab(4)">5</button>
+            </div>
+            
+            <!-- Prompt Outputs -->
+            <div class="tab-content">
+                <textarea class="prompt-output active" id="output0" placeholder="Your 5 generated prompts will appear here..."></textarea>
+                <textarea class="prompt-output" id="output1" placeholder="Prompt 2"></textarea>
+                <textarea class="prompt-output" id="output2" placeholder="Prompt 3"></textarea>
+                <textarea class="prompt-output" id="output3" placeholder="Prompt 4"></textarea>
+                <textarea class="prompt-output" id="output4" placeholder="Prompt 5"></textarea>
+            </div>
+            
+            <!-- Refinement Section (hidden initially) -->
+            <div id="refinementSection" style="display: none; margin-top: 15px;">
+                <label style="font-weight: 600; margin-bottom: 5px; display: block;">Refinement Notes for Prompt <span id="currentPromptNum">1</span>:</label>
+                <textarea id="refinementInput" placeholder="Make your changes here..." style="height: 80px; margin-bottom: 10px;"></textarea>
+                <button class="generate-btn" onclick="refinePrompt()" style="width: 100%; margin-bottom: 10px;">✨ Refine Current Prompt</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
