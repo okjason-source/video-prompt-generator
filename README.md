@@ -18,7 +18,7 @@ Transform your video ideas into detailed production prompts using LLM-powered as
 7. Edit or refine your generated prompt
 7. Copy the formatted output - done!
 
-**Both modes available in one interface!** Just switch the dropdown.
+**Both modes available in one interface!** Just switch the dropdown.  Download PWA for quick access.
 
 ### Features
 
