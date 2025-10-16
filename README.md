@@ -1,18 +1,11 @@
-# Professional Video Production Prompt Generator
+# Short Video Production Prompt Generator
 
-Transform your video ideas into world-class, detailed production prompts using AI-powered assistance. Perfect for directors, cinematographers, producers, and content creators working across all genres.
+Transform your video ideas into detailed production prompts using LLM-powered assistance. Professional and Comedy Mode to create different types of videos based on your idea prompt.
 
 ## 🚀 Quick Start
 
-### Option 1: Launcher (Easiest CLI Experience)
 
-1. Run the launcher: `python video_prompt_launcher.py`
-2. Choose your mode:
-   - **Professional Mode** - World-class video production prompts
-   - **Comedy Mode** - Absurdly hilarious, high-energy prompts
-3. Follow the prompts to generate your video production brief
-
-### Option 2: Web Interface (Recommended - Most User-Friendly!)
+## Web Interface
 
 1. Open `video-prompt-generator.html` in your browser
 2. **Choose your Generator Mode:**
@@ -26,11 +19,6 @@ Transform your video ideas into world-class, detailed production prompts using A
 7. Copy the formatted output - done!
 
 **Both modes available in one interface!** Just switch the dropdown.
-
-### Option 3: Direct CLI (For Power Users)
-
-- Professional mode: `python video_prompt_cli.py`
-- Comedy mode: `python video_prompt_comedy.py`
 
 ### Features
 
