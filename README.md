@@ -26,7 +26,7 @@ Transform your video ideas into detailed production prompts using LLM-powered as
   - OpenAI (GPT-4) - Excellent for creative and versatile outputs
   - xAI (Grok) - Fast, witty, and up-to-date with current information
   - Anthropic (Claude) - Superior for detailed, nuanced, professional guidance (unavailable direct from browser)
-  - Ollama (Local) - Run models locally for privacy and no API costs
+  - Ollama (Local) - Run models locally for privacy and no API costs (requires an Ollama server URL)
 
 - **Simple Brief → Complete Production Blueprint**
   - Enter high-level concepts and creative direction
