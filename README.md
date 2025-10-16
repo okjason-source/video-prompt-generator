@@ -1,6 +1,6 @@
 # Short Video Production Prompt Generator
 
-Transform your video ideas into detailed production prompts using LLM-powered assistance. Professional and Comedy Mode to create different types of videos based on your idea prompt.
+Transform your video ideas into detailed production prompts using LLM-powered assistance. Professional and Comedy Mode to create different types of videos based on your idea prompt.  Refine your prompts in the easy-to-read GUI before copying and pasting in your preferred video generator.  Remember:  Keep your API-keys safe.  Anyone with your API-keys can send API calls.
 
 ## 🚀 Quick Start
 
