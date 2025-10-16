@@ -22,7 +22,7 @@ Transform your video ideas into detailed production prompts using LLM-powered as
 
 ### Features
 
-- **Professional-Grade AI Assistance:**
+- **Console-Grade AI Assistance:**
   - OpenAI (GPT-4) - Excellent for creative and versatile outputs
   - xAI (Grok) - Fast, witty, and up-to-date with current information
   - Anthropic (Claude) - Superior for detailed, nuanced, professional guidance
