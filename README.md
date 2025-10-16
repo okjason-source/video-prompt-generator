@@ -25,7 +25,7 @@ Transform your video ideas into detailed production prompts using LLM-powered as
 - **Console-Grade AI Assistance:**
   - OpenAI (GPT-4) - Excellent for creative and versatile outputs
   - xAI (Grok) - Fast, witty, and up-to-date with current information
-  - Anthropic (Claude) - Superior for detailed, nuanced, professional guidance
+  - Anthropic (Claude) - Superior for detailed, nuanced, professional guidance (unavailable direct from browser)
   - Ollama (Local) - Run models locally for privacy and no API costs
 
 - **Simple Brief → Complete Production Blueprint**
