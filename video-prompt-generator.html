@@ -32,6 +32,8 @@
                 <select id="generatorMode" onchange="updateModeUI()">
                     <option value="professional">🎯 Professional Mode</option>
                     <option value="comedy">🎭 Comedy Mode</option>
+                    <option value="billionaire">💰 Billionaire Mindset</option>
+                    <option value="trailer">🎬 Movie Trailer</option>
                 </select>
                 
                 <label>LLM Provider:</label>
@@ -39,6 +41,7 @@
                     <option value="openai">OpenAI (GPT-4)</option>
                     <option value="xai">xAI (Grok-4-Fast)</option>
                     <option value="anthropic">Anthropic (Claude)</option>
+                    <option value="gemini">Google (Gemini)</option>
                     <option value="ollama">Ollama (Local)</option>
                 </select>
                 
@@ -58,6 +61,12 @@
                     <label>Anthropic API Key:</label>
                     <input type="password" id="anthropicKey" placeholder="sk-ant-...">
                     <small style="color: #888; font-size: 11px;">Your API key is stored locally and only sent to Anthropic.</small>
+                </div>
+                
+                <div id="geminiKeySection" style="display: none;">
+                    <label>Google Gemini API Key:</label>
+                    <input type="password" id="geminiKey" placeholder="AIza...">
+                    <small style="color: #888; font-size: 11px;">Your API key is stored locally and only sent to Google.</small>
                 </div>
                 
                 <div id="ollamaSection" style="display: none;">
@@ -121,6 +130,8 @@
     </div>
 
     <!-- JavaScript -->
+    <script src="billionaire-mode.js"></script>
+    <script src="trailer-mode.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

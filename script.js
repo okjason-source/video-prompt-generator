@@ -2,6 +2,7 @@
 document.getElementById('openaiKey').value = localStorage.getItem('openaiKey') || '';
 document.getElementById('xaiKey').value = localStorage.getItem('xaiKey') || '';
 document.getElementById('anthropicKey').value = localStorage.getItem('anthropicKey') || '';
+document.getElementById('geminiKey').value = localStorage.getItem('geminiKey') || '';
 document.getElementById('llmProvider').value = localStorage.getItem('llmProvider') || 'openai';
 document.getElementById('generatorMode').value = localStorage.getItem('generatorMode') || 'professional';
 document.getElementById('ollamaUrl').value = localStorage.getItem('ollamaUrl') || 'http://localhost:11434';
@@ -18,6 +19,10 @@ document.getElementById('xaiKey').addEventListener('change', (e) => {
 
 document.getElementById('anthropicKey').addEventListener('change', (e) => {
     localStorage.setItem('anthropicKey', e.target.value);
+});
+
+document.getElementById('geminiKey').addEventListener('change', (e) => {
+    localStorage.setItem('geminiKey', e.target.value);
 });
 
 document.getElementById('llmProvider').addEventListener('change', (e) => {
@@ -167,16 +172,22 @@ function updateModeUI() {
         title.textContent = 'Professional Generator';
         subtitle.textContent = 'Create high-quality video production prompts';
         ideaInput.placeholder = `Enter your video ideas here...`;
-
-
         loadingText.textContent = 'Generating 5 professional video prompts...';
-    } else {
+    } else if (mode === 'comedy') {
         title.textContent = 'Comedy Generator';
-        subtitle.textContent = 'Create absurdly hilarious, high-energy video prompts';
-        ideaInput.placeholder = `Enter your  video ideas here...`;
-
-
+        subtitle.textContent = 'Create absurdly hilarious, zany video prompts';
+        ideaInput.placeholder = `Enter your video ideas here...`;
         loadingText.textContent = 'Generating 5 ABSURDLY HILARIOUS prompts...';
+    } else if (mode === 'billionaire') {
+        title.textContent = '💰 Billionaire Mindset Generator';
+        subtitle.textContent = 'Generate episodes for The Billionaire Mindset character';
+        ideaInput.placeholder = `Enter scenario ideas for the billionaire (e.g., "buying an exotic item", "motivational speech", "flexing stories")...`;
+        loadingText.textContent = 'Generating 5 BILLIONAIRE MINDSET episodes...';
+    } else if (mode === 'trailer') {
+        title.textContent = '🎬 Movie Trailer Generator';
+        subtitle.textContent = 'Create epic fictional movie trailer prompts';
+        ideaInput.placeholder = `Enter your movie concept (e.g., genre, plot elements, mood, key scenes, characters)...`;
+        loadingText.textContent = 'Generating 5 EPIC MOVIE TRAILER prompts...';
     }
 }
 
@@ -190,12 +201,14 @@ function updateProviderUI() {
     const openaiKeySection = document.getElementById('openaiKeySection');
     const xaiKeySection = document.getElementById('xaiKeySection');
     const anthropicKeySection = document.getElementById('anthropicKeySection');
+    const geminiKeySection = document.getElementById('geminiKeySection');
     const ollamaSection = document.getElementById('ollamaSection');
     
     // Hide all sections first
     openaiKeySection.style.display = 'none';
     xaiKeySection.style.display = 'none';
     anthropicKeySection.style.display = 'none';
+    geminiKeySection.style.display = 'none';
     ollamaSection.style.display = 'none';
     
     // Show the relevant section
@@ -205,6 +218,8 @@ function updateProviderUI() {
         xaiKeySection.style.display = 'block';
     } else if (provider === 'anthropic') {
         anthropicKeySection.style.display = 'block';
+    } else if (provider === 'gemini') {
+        geminiKeySection.style.display = 'block';
     } else if (provider === 'ollama') {
         ollamaSection.style.display = 'block';
     }
@@ -221,7 +236,7 @@ function fillExample() {
 - Aspirational yet authentic tone
 - 30 seconds, high production value
 - For digital platforms and social media`;
-    } else {
+    } else if (mode === 'comedy') {
         document.getElementById('ideaInput').value = `- Nature documentary about pigeons
 - Treated like apex predators
 - Slow motion, dramatic cinematography
@@ -229,6 +244,10 @@ function fillExample() {
 - David Attenborough style narration
 - Epic orchestral music
 - Take it 100% seriously`;
+    } else if (mode === 'billionaire') {
+        document.getElementById('ideaInput').value = BillionaireMindsetMode.getExampleIdeas();
+    } else if (mode === 'trailer') {
+        document.getElementById('ideaInput').value = MovieTrailerMode.getExampleIdeas();
     }
 }
 
@@ -251,6 +270,7 @@ async function generatePrompt() {
     const openaiKey = document.getElementById('openaiKey').value;
     const xaiKey = document.getElementById('xaiKey').value;
     const anthropicKey = document.getElementById('anthropicKey').value;
+    const geminiKey = document.getElementById('geminiKey').value;
     const ollamaUrl = document.getElementById('ollamaUrl').value;
     const ollamaModel = document.getElementById('ollamaModel').value;
 
@@ -271,6 +291,11 @@ async function generatePrompt() {
     
     if (provider === 'anthropic' && !anthropicKey.trim()) {
         alert('Please enter your Anthropic API key');
+        return;
+    }
+    
+    if (provider === 'gemini' && !geminiKey.trim()) {
+        alert('Please enter your Google Gemini API key');
         return;
     }
 
@@ -298,6 +323,8 @@ async function generatePrompt() {
             result = await generateWithXAI(ideas, xaiKey, mode);
         } else if (provider === 'anthropic') {
             result = await generateWithAnthropic(ideas, anthropicKey, mode);
+        } else if (provider === 'gemini') {
+            result = await generateWithGemini(ideas, geminiKey, mode);
         } else if (provider === 'ollama') {
             result = await generateWithOllama(ideas, ollamaUrl, ollamaModel, mode);
         }
@@ -332,6 +359,7 @@ async function refinePrompt() {
     const openaiKey = document.getElementById('openaiKey').value;
     const xaiKey = document.getElementById('xaiKey').value;
     const anthropicKey = document.getElementById('anthropicKey').value;
+    const geminiKey = document.getElementById('geminiKey').value;
     const ollamaUrl = document.getElementById('ollamaUrl').value;
     const ollamaModel = document.getElementById('ollamaModel').value;
 
@@ -357,6 +385,11 @@ async function refinePrompt() {
     
     if (provider === 'anthropic' && !anthropicKey.trim()) {
         alert('Please enter your Anthropic API key');
+        return;
+    }
+    
+    if (provider === 'gemini' && !geminiKey.trim()) {
+        alert('Please enter your Google Gemini API key');
         return;
     }
 
@@ -385,6 +418,8 @@ async function refinePrompt() {
             result = await refineWithXAI(currentPrompt, refinementNotes, xaiKey, mode);
         } else if (provider === 'anthropic') {
             result = await refineWithAnthropic(currentPrompt, refinementNotes, anthropicKey, mode);
+        } else if (provider === 'gemini') {
+            result = await refineWithGemini(currentPrompt, refinementNotes, geminiKey, mode);
         } else if (provider === 'ollama') {
             result = await refineWithOllama(currentPrompt, refinementNotes, ollamaUrl, ollamaModel, mode);
         }
@@ -402,14 +437,19 @@ async function refinePrompt() {
 }
 
 function getSystemPrompt(mode) {
-    if (mode === 'comedy') {
-        return `You are a creative comedy writer and director with world-class expertise in perfect comedic timing. Generate EXACTLY 5 DIFFERENT hilarious, high-energy, ridiculous video production prompts that are professionally detailed but designed to be funny. Each prompt should be aligned with the user's ideas and explore different comedic approaches.
+    if (mode === 'billionaire') {
+        return BillionaireMindsetMode.getSystemPrompt();
+    } else if (mode === 'trailer') {
+        return MovieTrailerMode.getSystemPrompt();
+    } else if (mode === 'comedy') {
+        return `You are a creative comedy writer and director with world-class expertise in surreal humor, and observational comedy. Generate EXACTLY 5 DIFFERENT hilarious, high-energy, ridiculous video production prompts that are professionally detailed but designed to be funny. Each prompt should be aligned with the user's ideas and explore different comedic narrative styles.
 
 IMPORTANT: 
 - Generate EXACTLY 5 variations
 - Separate each prompt with: ===== PROMPT 2 =====, ===== PROMPT 3 =====, etc.
 - Each prompt under 2000 characters
 - Keep duration at "15s" for all
+- BE VISUALLY DESCRIPTIVE AND CONCISE - your entire response must be under 2000 characters.
 
 Always respond in this exact format for EACH of the 5 prompts:
 
@@ -469,6 +509,7 @@ IMPORTANT:
 - Separate each prompt with: ===== PROMPT 2 =====, ===== PROMPT 3 =====, etc.
 - Each prompt under 2000 characters
 - Keep duration at "15s" for all
+- BE VISUALLY DESCRIPTIVE AND CONCISE - your entire response must be under 2000 characters.
 
 Always respond in this exact format for EACH of the 5 prompts:
 
@@ -526,10 +567,18 @@ Provide 5 unique professional approaches with advanced cinematography terminolog
 
 async function generateWithOpenAI(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = mode === 'comedy' ? 0.95 : 0.9;
-    const userPrompt = mode === 'comedy' 
-        ? `Generate 5 DIFFERENT hilarious video prompts based on these ideas. Make each unique:\n${ideas}`
-        : `Generate 5 DIFFERENT professional video production prompts based on these ideas. Make each unique:\n${ideas}`;
+    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    
+    let userPrompt;
+    if (mode === 'billionaire') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
+        userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    } else if (mode === 'trailer') {
+        userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else {
+        userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    }
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -557,10 +606,18 @@ async function generateWithOpenAI(ideas, apiKey, mode) {
 
 async function generateWithXAI(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = mode === 'comedy' ? 0.95 : 0.9;
-    const userPrompt = mode === 'comedy' 
-        ? `Generate 5 DIFFERENT hilarious video prompts based on these ideas. Make each unique:\n${ideas}`
-        : `Generate 5 DIFFERENT professional video production prompts based on these ideas. Make each unique:\n${ideas}`;
+    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    
+    let userPrompt;
+    if (mode === 'billionaire') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
+        userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    } else if (mode === 'trailer') {
+        userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else {
+        userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    }
 
     const response = await fetch('https://api.x.ai/v1/chat/completions', {
         method: 'POST',
@@ -589,10 +646,18 @@ async function generateWithXAI(ideas, apiKey, mode) {
 
 async function generateWithAnthropic(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = mode === 'comedy' ? 0.95 : 0.9;
-    const userPrompt = mode === 'comedy' 
-        ? `Generate 5 DIFFERENT hilarious video prompts based on these ideas. Make each unique:\n${ideas}`
-        : `Generate 5 DIFFERENT professional video production prompts based on these ideas. Make each unique:\n${ideas}`;
+    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    
+    let userPrompt;
+    if (mode === 'billionaire') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
+        userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    } else if (mode === 'trailer') {
+        userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else {
+        userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -625,10 +690,18 @@ async function generateWithAnthropic(ideas, apiKey, mode) {
 
 async function generateWithOllama(ideas, ollamaUrl, model, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = mode === 'comedy' ? 0.95 : 0.9;
-    const userPrompt = mode === 'comedy' 
-        ? `Generate 5 DIFFERENT hilarious video prompts based on these ideas. Make each unique:\n${ideas}`
-        : `Generate 5 DIFFERENT professional video production prompts based on these ideas. Make each unique:\n${ideas}`;
+    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    
+    let userPrompt;
+    if (mode === 'billionaire') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
+        userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    } else if (mode === 'trailer') {
+        userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else {
+        userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    }
 
     const response = await fetch(`${ollamaUrl}/api/chat`, {
         method: 'POST',
@@ -655,6 +728,51 @@ async function generateWithOllama(ideas, ollamaUrl, model, mode) {
 
     const data = await response.json();
     return data.message.content;
+}
+
+async function generateWithGemini(ideas, apiKey, mode) {
+    const systemPrompt = getSystemPrompt(mode);
+    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    
+    let userPrompt;
+    if (mode === 'billionaire') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
+        userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    } else if (mode === 'trailer') {
+        userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else {
+        userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
+    }
+
+    // Combine system prompt and user prompt for Gemini
+    const fullPrompt = `${systemPrompt}\n\n${userPrompt}`;
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            contents: [{
+                parts: [{
+                    text: fullPrompt
+                }]
+            }],
+            generationConfig: {
+                temperature: temperature,
+                maxOutputTokens: 8000,
+            }
+        })
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Gemini API error: ${response.statusText} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
 }
 
 // Refinement functions
@@ -791,6 +909,40 @@ async function refineWithOllama(currentPrompt, refinementNotes, ollamaUrl, model
 
     const data = await response.json();
     return data.message.content;
+}
+
+async function refineWithGemini(currentPrompt, refinementNotes, apiKey, mode) {
+    const systemPrompt = getSystemPrompt(mode);
+    const temperature = mode === 'comedy' ? 0.95 : 0.9;
+
+    // Combine all context for Gemini
+    const fullPrompt = `${systemPrompt}\n\nHere is the current video prompt:\n\n${currentPrompt}\n\nNow refine and adjust THIS EXACT PROMPT based on these specific changes: ${refinementNotes}\n\nIMPORTANT: Do NOT create a new prompt. Take the existing prompt above and modify it according to the refinement notes. Keep the same format, structure, and all fields. Only change what the refinement notes specify. Keep your entire response under 2000 characters and maintain duration at 15s.`;
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            contents: [{
+                parts: [{
+                    text: fullPrompt
+                }]
+            }],
+            generationConfig: {
+                temperature: temperature,
+                maxOutputTokens: 8000,
+            }
+        })
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Gemini API error: ${response.statusText} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
 }
 
 function copyToClipboard() {
