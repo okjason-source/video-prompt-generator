@@ -178,11 +178,6 @@ function updateModeUI() {
         subtitle.textContent = 'Create absurdly hilarious, zany video prompts';
         ideaInput.placeholder = `Enter your video ideas here...`;
         loadingText.textContent = 'Generating 5 ABSURDLY HILARIOUS prompts...';
-    } else if (mode === 'billionaire') {
-        title.textContent = '💰 Billionaire Mindset Generator';
-        subtitle.textContent = 'Generate episodes for The Billionaire Mindset character';
-        ideaInput.placeholder = `Enter scenario ideas for the billionaire (e.g., "buying an exotic item", "motivational speech", "flexing stories")...`;
-        loadingText.textContent = 'Generating 5 BILLIONAIRE MINDSET episodes...';
     } else if (mode === 'trailer') {
         title.textContent = '🎬 Movie Trailer Generator';
         subtitle.textContent = 'Create epic fictional movie trailer prompts';
@@ -244,8 +239,6 @@ function fillExample() {
 - David Attenborough style narration
 - Epic orchestral music
 - Take it 100% seriously`;
-    } else if (mode === 'billionaire') {
-        document.getElementById('ideaInput').value = BillionaireMindsetMode.getExampleIdeas();
     } else if (mode === 'trailer') {
         document.getElementById('ideaInput').value = MovieTrailerMode.getExampleIdeas();
     }
@@ -437,9 +430,7 @@ async function refinePrompt() {
 }
 
 function getSystemPrompt(mode) {
-    if (mode === 'billionaire') {
-        return BillionaireMindsetMode.getSystemPrompt();
-    } else if (mode === 'trailer') {
+    if (mode === 'trailer') {
         return MovieTrailerMode.getSystemPrompt();
     } else if (mode === 'comedy') {
         return `You are a creative comedy writer and director with world-class expertise in surreal humor, and observational comedy. Generate EXACTLY 5 DIFFERENT hilarious, high-energy, ridiculous video production prompts that are professionally detailed but designed to be funny. Each prompt should be aligned with the user's ideas and explore different comedic narrative styles.
@@ -567,12 +558,10 @@ Provide 5 unique professional approaches with advanced cinematography terminolog
 
 async function generateWithOpenAI(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'billionaire') {
-        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
-    } else if (mode === 'comedy') {
+    if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     } else if (mode === 'trailer') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
@@ -606,12 +595,10 @@ async function generateWithOpenAI(ideas, apiKey, mode) {
 
 async function generateWithXAI(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'billionaire') {
-        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
-    } else if (mode === 'comedy') {
+    if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     } else if (mode === 'trailer') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
@@ -646,12 +633,10 @@ async function generateWithXAI(ideas, apiKey, mode) {
 
 async function generateWithAnthropic(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'billionaire') {
-        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
-    } else if (mode === 'comedy') {
+    if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     } else if (mode === 'trailer') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
@@ -690,12 +675,10 @@ async function generateWithAnthropic(ideas, apiKey, mode) {
 
 async function generateWithOllama(ideas, ollamaUrl, model, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'billionaire') {
-        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
-    } else if (mode === 'comedy') {
+    if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     } else if (mode === 'trailer') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
@@ -732,12 +715,10 @@ async function generateWithOllama(ideas, ollamaUrl, model, mode) {
 
 async function generateWithGemini(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === 'billionaire') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'billionaire') {
-        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
-    } else if (mode === 'comedy') {
+    if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     } else if (mode === 'trailer') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
