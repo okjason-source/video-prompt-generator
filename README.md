@@ -12,6 +12,7 @@ Transform your video ideas into detailed production prompts using LLM-powered as
    - 🎯 Professional Mode - World-class production prompts
    - 🎭 Comedy Mode - Absurdly hilarious prompts
    - 🎥 Trailer Mode - Just added(trailer-mode.js). Create trailers with detailed prompts
+   - 🔥 Viral Mode - Ideas to views?
 3. Choose your LLM provider (OpenAI, xAI, Anthropic, Ollama)
 4. Enter your API key (if using a cloud provider)
 5. Type in your video ideas
