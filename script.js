@@ -44,6 +44,33 @@ document.getElementById('ollamaModel').addEventListener('change', (e) => {
 // Track current active tab
 let currentTab = 0;
 
+// Check which modes are available and hide unavailable ones
+function initializeAvailableModes() {
+    const modeSelect = document.getElementById('generatorMode');
+    const options = modeSelect.querySelectorAll('option[data-requires]');
+    
+    options.forEach(option => {
+        const requiredObject = option.getAttribute('data-requires');
+        // Check if the mode object exists in global scope
+        if (typeof window[requiredObject] === 'undefined') {
+            // Mode not available, remove the option
+            option.remove();
+        }
+    });
+    
+    // Make sure the selected mode is still valid
+    const selectedValue = localStorage.getItem('generatorMode') || 'professional';
+    const selectedOption = modeSelect.querySelector(`option[value="${selectedValue}"]`);
+    
+    if (selectedOption) {
+        modeSelect.value = selectedValue;
+    } else {
+        // If saved mode is no longer available, default to professional
+        modeSelect.value = 'professional';
+        localStorage.setItem('generatorMode', 'professional');
+    }
+}
+
 // Tab switching function
 function switchTab(tabIndex) {
     currentTab = tabIndex;
@@ -178,15 +205,51 @@ function updateModeUI() {
         subtitle.textContent = 'Create absurdly hilarious, zany video prompts';
         ideaInput.placeholder = `Enter your video ideas here...`;
         loadingText.textContent = 'Generating 5 ABSURDLY HILARIOUS prompts...';
+    } else if (mode === 'billionaire') {
+        title.textContent = '💰 Billionaire Mindset Generator';
+        subtitle.textContent = 'Generate episodes for The Billionaire Mindset character';
+        ideaInput.placeholder = `Enter scenario ideas for the billionaire (e.g., "buying an exotic item", "motivational speech", "flexing stories")...`;
+        loadingText.textContent = 'Generating 5 BILLIONAIRE MINDSET episodes...';
     } else if (mode === 'trailer') {
         title.textContent = '🎬 Movie Trailer Generator';
         subtitle.textContent = 'Create epic fictional movie trailer prompts';
         ideaInput.placeholder = `Enter your movie concept (e.g., genre, plot elements, mood, key scenes, characters)...`;
         loadingText.textContent = 'Generating 5 EPIC MOVIE TRAILER prompts...';
+    } else if (mode === 'tvshow') {
+        title.textContent = '📺 TV Show Runner Generator';
+        subtitle.textContent = 'Create episodic TV show prompts';
+        ideaInput.placeholder = `Enter your TV show concept (e.g., genre, characters, premise, tone, setting, episode ideas)...`;
+        loadingText.textContent = 'Generating 5 TV SHOW EPISODES...';
+    } else if (mode === 'commercials') {
+        title.textContent = '📺 AI Commercials Generator';
+        subtitle.textContent = 'Transform ideas into real products with compelling commercials';
+        ideaInput.placeholder = `Enter your concept or idea (e.g., "AI productivity tool", "sustainable living product", "wellness service")...`;
+        loadingText.textContent = 'Generating 5 COMMERCIAL PROMPTS...';
+    } else if (mode === 'okjason') {
+        title.textContent = '📹 @okjason Vlog Generator';
+        subtitle.textContent = 'Create authentic vlog content for @okjason';
+        ideaInput.placeholder = `Enter vlog ideas (e.g., location, topic, attitude, current events, experiences)...`;
+        loadingText.textContent = 'Generating 5 @OKJASON VLOG episodes...';
+    } else if (mode === 'abstractart') {
+        title.textContent = '🎨 Abstract Art Generator';
+        subtitle.textContent = 'Create fine art video/moving image pieces';
+        ideaInput.placeholder = `Enter conceptual ideas (e.g., emotions, natural phenomena, philosophical concepts, sensory experiences)...`;
+        loadingText.textContent = 'Generating 5 ABSTRACT ART video pieces...';
+    } else if (mode === 'viral') {
+        title.textContent = '🔥 Viral Mode Generator';
+        subtitle.textContent = 'Create highly shareable viral content';
+        ideaInput.placeholder = `Enter ideas for viral content (e.g., challenges, memes, relatable moments, trends, pranks)...`;
+        loadingText.textContent = 'Generating 5 VIRAL VIDEO concepts...';
+    } else if (mode === 'product') {
+        title.textContent = '📦 Product Mode Generator';
+        subtitle.textContent = 'Create professional product showcase videos';
+        ideaInput.placeholder = `Describe your product (e.g., category, features, mood, target audience, showcase style)...`;
+        loadingText.textContent = 'Generating 5 PRODUCT SHOWCASE prompts...';
     }
 }
 
 // Initialize UI on load
+initializeAvailableModes();
 updateModeUI();
 updateProviderUI();
 
@@ -239,8 +302,22 @@ function fillExample() {
 - David Attenborough style narration
 - Epic orchestral music
 - Take it 100% seriously`;
-    } else if (mode === 'trailer') {
+    } else if (mode === 'billionaire' && typeof BillionaireMindsetMode !== 'undefined') {
+        document.getElementById('ideaInput').value = BillionaireMindsetMode.getExampleIdeas();
+    } else if (mode === 'trailer' && typeof MovieTrailerMode !== 'undefined') {
         document.getElementById('ideaInput').value = MovieTrailerMode.getExampleIdeas();
+    } else if (mode === 'tvshow' && typeof TVShowRunnerMode !== 'undefined') {
+        document.getElementById('ideaInput').value = TVShowRunnerMode.getExampleIdeas();
+    } else if (mode === 'commercials' && typeof AICommercialsMode !== 'undefined') {
+        document.getElementById('ideaInput').value = AICommercialsMode.getExampleIdeas();
+    } else if (mode === 'okjason' && typeof OkJasonVlogMode !== 'undefined') {
+        document.getElementById('ideaInput').value = OkJasonVlogMode.getExampleIdeas();
+    } else if (mode === 'abstractart' && typeof AbstractArtMode !== 'undefined') {
+        document.getElementById('ideaInput').value = AbstractArtMode.getExampleIdeas();
+    } else if (mode === 'viral' && typeof ViralMode !== 'undefined') {
+        document.getElementById('ideaInput').value = ViralMode.getExampleIdeas();
+    } else if (mode === 'product' && typeof ProductMode !== 'undefined') {
+        document.getElementById('ideaInput').value = ProductMode.getExampleIdeas();
     }
 }
 
@@ -430,8 +507,22 @@ async function refinePrompt() {
 }
 
 function getSystemPrompt(mode) {
-    if (mode === 'trailer') {
+    if (mode === 'billionaire' && typeof BillionaireMindsetMode !== 'undefined') {
+        return BillionaireMindsetMode.getSystemPrompt();
+    } else if (mode === 'trailer' && typeof MovieTrailerMode !== 'undefined') {
         return MovieTrailerMode.getSystemPrompt();
+    } else if (mode === 'tvshow' && typeof TVShowRunnerMode !== 'undefined') {
+        return TVShowRunnerMode.getSystemPrompt();
+    } else if (mode === 'commercials' && typeof AICommercialsMode !== 'undefined') {
+        return AICommercialsMode.getSystemPrompt();
+    } else if (mode === 'okjason' && typeof OkJasonVlogMode !== 'undefined') {
+        return OkJasonVlogMode.getSystemPrompt();
+    } else if (mode === 'abstractart' && typeof AbstractArtMode !== 'undefined') {
+        return AbstractArtMode.getSystemPrompt();
+    } else if (mode === 'viral' && typeof ViralMode !== 'undefined') {
+        return ViralMode.getSystemPrompt();
+    } else if (mode === 'product' && typeof ProductMode !== 'undefined') {
+        return ProductMode.getSystemPrompt();
     } else if (mode === 'comedy') {
         return `You are a creative comedy writer and director with world-class expertise in surreal humor, and observational comedy. Generate EXACTLY 5 DIFFERENT hilarious, high-energy, ridiculous video production prompts that are professionally detailed but designed to be funny. Each prompt should be aligned with the user's ideas and explore different comedic narrative styles.
 
@@ -558,13 +649,27 @@ Provide 5 unique professional approaches with advanced cinematography terminolog
 
 async function generateWithOpenAI(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === 'billionaire' || mode === 'viral') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'comedy') {
+    if (mode === 'billionaire' && typeof BillionaireMindsetMode !== 'undefined') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
-    } else if (mode === 'trailer') {
+    } else if (mode === 'trailer' && typeof MovieTrailerMode !== 'undefined') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else if (mode === 'tvshow' && typeof TVShowRunnerMode !== 'undefined') {
+        userPrompt = TVShowRunnerMode.getUserPrompt(ideas);
+    } else if (mode === 'commercials' && typeof AICommercialsMode !== 'undefined') {
+        userPrompt = AICommercialsMode.getUserPrompt(ideas);
+    } else if (mode === 'okjason' && typeof OkJasonVlogMode !== 'undefined') {
+        userPrompt = OkJasonVlogMode.getUserPrompt(ideas);
+    } else if (mode === 'abstractart' && typeof AbstractArtMode !== 'undefined') {
+        userPrompt = AbstractArtMode.getUserPrompt(ideas);
+    } else if (mode === 'viral' && typeof ViralMode !== 'undefined') {
+        userPrompt = ViralMode.getUserPrompt(ideas);
+    } else if (mode === 'product' && typeof ProductMode !== 'undefined') {
+        userPrompt = ProductMode.getUserPrompt(ideas);
     } else {
         userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     }
@@ -595,13 +700,27 @@ async function generateWithOpenAI(ideas, apiKey, mode) {
 
 async function generateWithXAI(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === 'billionaire' || mode === 'viral') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'comedy') {
+    if (mode === 'billionaire' && typeof BillionaireMindsetMode !== 'undefined') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
-    } else if (mode === 'trailer') {
+    } else if (mode === 'trailer' && typeof MovieTrailerMode !== 'undefined') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else if (mode === 'tvshow' && typeof TVShowRunnerMode !== 'undefined') {
+        userPrompt = TVShowRunnerMode.getUserPrompt(ideas);
+    } else if (mode === 'commercials' && typeof AICommercialsMode !== 'undefined') {
+        userPrompt = AICommercialsMode.getUserPrompt(ideas);
+    } else if (mode === 'okjason' && typeof OkJasonVlogMode !== 'undefined') {
+        userPrompt = OkJasonVlogMode.getUserPrompt(ideas);
+    } else if (mode === 'abstractart' && typeof AbstractArtMode !== 'undefined') {
+        userPrompt = AbstractArtMode.getUserPrompt(ideas);
+    } else if (mode === 'viral' && typeof ViralMode !== 'undefined') {
+        userPrompt = ViralMode.getUserPrompt(ideas);
+    } else if (mode === 'product' && typeof ProductMode !== 'undefined') {
+        userPrompt = ProductMode.getUserPrompt(ideas);
     } else {
         userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     }
@@ -633,13 +752,27 @@ async function generateWithXAI(ideas, apiKey, mode) {
 
 async function generateWithAnthropic(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === 'billionaire' || mode === 'viral') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'comedy') {
+    if (mode === 'billionaire' && typeof BillionaireMindsetMode !== 'undefined') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
-    } else if (mode === 'trailer') {
+    } else if (mode === 'trailer' && typeof MovieTrailerMode !== 'undefined') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else if (mode === 'tvshow' && typeof TVShowRunnerMode !== 'undefined') {
+        userPrompt = TVShowRunnerMode.getUserPrompt(ideas);
+    } else if (mode === 'commercials' && typeof AICommercialsMode !== 'undefined') {
+        userPrompt = AICommercialsMode.getUserPrompt(ideas);
+    } else if (mode === 'okjason' && typeof OkJasonVlogMode !== 'undefined') {
+        userPrompt = OkJasonVlogMode.getUserPrompt(ideas);
+    } else if (mode === 'abstractart' && typeof AbstractArtMode !== 'undefined') {
+        userPrompt = AbstractArtMode.getUserPrompt(ideas);
+    } else if (mode === 'viral' && typeof ViralMode !== 'undefined') {
+        userPrompt = ViralMode.getUserPrompt(ideas);
+    } else if (mode === 'product' && typeof ProductMode !== 'undefined') {
+        userPrompt = ProductMode.getUserPrompt(ideas);
     } else {
         userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     }
@@ -675,13 +808,27 @@ async function generateWithAnthropic(ideas, apiKey, mode) {
 
 async function generateWithOllama(ideas, ollamaUrl, model, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === 'billionaire' || mode === 'viral') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'comedy') {
+    if (mode === 'billionaire' && typeof BillionaireMindsetMode !== 'undefined') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
-    } else if (mode === 'trailer') {
+    } else if (mode === 'trailer' && typeof MovieTrailerMode !== 'undefined') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else if (mode === 'tvshow' && typeof TVShowRunnerMode !== 'undefined') {
+        userPrompt = TVShowRunnerMode.getUserPrompt(ideas);
+    } else if (mode === 'commercials' && typeof AICommercialsMode !== 'undefined') {
+        userPrompt = AICommercialsMode.getUserPrompt(ideas);
+    } else if (mode === 'okjason' && typeof OkJasonVlogMode !== 'undefined') {
+        userPrompt = OkJasonVlogMode.getUserPrompt(ideas);
+    } else if (mode === 'abstractart' && typeof AbstractArtMode !== 'undefined') {
+        userPrompt = AbstractArtMode.getUserPrompt(ideas);
+    } else if (mode === 'viral' && typeof ViralMode !== 'undefined') {
+        userPrompt = ViralMode.getUserPrompt(ideas);
+    } else if (mode === 'product' && typeof ProductMode !== 'undefined') {
+        userPrompt = ProductMode.getUserPrompt(ideas);
     } else {
         userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     }
@@ -715,13 +862,27 @@ async function generateWithOllama(ideas, ollamaUrl, model, mode) {
 
 async function generateWithGemini(ideas, apiKey, mode) {
     const systemPrompt = getSystemPrompt(mode);
-    const temperature = (mode === 'comedy' || mode === '') ? 0.95 : 0.9;
+    const temperature = (mode === 'comedy' || mode === 'billionaire' || mode === 'viral') ? 0.95 : 0.9;
     
     let userPrompt;
-    if (mode === 'comedy') {
+    if (mode === 'billionaire' && typeof BillionaireMindsetMode !== 'undefined') {
+        userPrompt = BillionaireMindsetMode.getUserPrompt(ideas);
+    } else if (mode === 'comedy') {
         userPrompt = `Generate 5 DIFFERENT hilarious video prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
-    } else if (mode === 'trailer') {
+    } else if (mode === 'trailer' && typeof MovieTrailerMode !== 'undefined') {
         userPrompt = MovieTrailerMode.getUserPrompt(ideas);
+    } else if (mode === 'tvshow' && typeof TVShowRunnerMode !== 'undefined') {
+        userPrompt = TVShowRunnerMode.getUserPrompt(ideas);
+    } else if (mode === 'commercials' && typeof AICommercialsMode !== 'undefined') {
+        userPrompt = AICommercialsMode.getUserPrompt(ideas);
+    } else if (mode === 'okjason' && typeof OkJasonVlogMode !== 'undefined') {
+        userPrompt = OkJasonVlogMode.getUserPrompt(ideas);
+    } else if (mode === 'abstractart' && typeof AbstractArtMode !== 'undefined') {
+        userPrompt = AbstractArtMode.getUserPrompt(ideas);
+    } else if (mode === 'viral' && typeof ViralMode !== 'undefined') {
+        userPrompt = ViralMode.getUserPrompt(ideas);
+    } else if (mode === 'product' && typeof ProductMode !== 'undefined') {
+        userPrompt = ProductMode.getUserPrompt(ideas);
     } else {
         userPrompt = `Generate 5 DIFFERENT professional video production prompts based on these ideas and instructions. Make each unique:\n${ideas}`;
     }

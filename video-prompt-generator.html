@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Professional and comedy video prompt generator with AI">
+    <meta name="description" content="Professional, comedy, abstract art and creative video prompt generator with AI">
     <meta name="theme-color" content="#000000">
     <title>Video Prompt Generator</title>
     
@@ -32,7 +32,14 @@
                 <select id="generatorMode" onchange="updateModeUI()">
                     <option value="professional">🎯 Professional Mode</option>
                     <option value="comedy">🎭 Comedy Mode</option>
-                    <option value="trailer">🎬 Movie Trailer</option>
+                    <option value="billionaire" data-requires="BillionaireMindsetMode">💰 Billionaire Mindset</option>
+                    <option value="trailer" data-requires="MovieTrailerMode">🎬 Movie Trailer</option>
+                    <option value="tvshow" data-requires="TVShowRunnerMode">📺 TV Show Runner</option>
+                    <option value="commercials" data-requires="AICommercialsMode">📺 AI Commercials</option>
+                    <option value="okjason" data-requires="OkJasonVlogMode">📹 @okjason Vlog</option>
+                    <option value="abstractart" data-requires="AbstractArtMode">🎨 Abstract Art</option>
+                    <option value="viral" data-requires="ViralMode">🔥 Viral Mode</option>
+                    <option value="product" data-requires="ProductMode">📦 Product Mode</option>
                 </select>
                 
                 <label>LLM Provider:</label>
@@ -129,7 +136,14 @@
     </div>
 
     <!-- JavaScript -->
+    <script src="billionaire-mode.js"></script>
     <script src="trailer-mode.js"></script>
+    <script src="tv-show-runner.js"></script>
+    <script src="ai-commercials.js"></script>
+    <script src="okjason-vlog.js"></script>
+    <script src="abstract-art-mode.js"></script>
+    <script src="viral-mode.js"></script>
+    <script src="product-mode.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
