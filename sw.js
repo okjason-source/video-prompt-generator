@@ -1,5 +1,5 @@
 // Service Worker for Video Prompt Generator PWA
-const CACHE_NAME = 'video-prompt-generator-v7';
+const CACHE_NAME = 'video-prompt-generator-v10';
 const urlsToCache = [
   '/video-prompt-generator.html',
   '/styles.css',
