@@ -157,7 +157,6 @@ Perfect for:
 
 - ⭐ **Star this repo** 
 - 💬 **Share your feedback** 
-- 🎬 **Show what you've made** 
 - 🤝 **Give credit** 
 
 ---
