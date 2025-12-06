@@ -18,11 +18,6 @@ Transform your video ideas into world-class, detailed production prompts using A
 2. **Choose your Generator Mode:**
    - 🎯 **Professional Mode** - World-class production prompts
    - 🎭 **Comedy Mode** - Absurdly hilarious prompts
-   - 💰 **Billionaire Mindset** - Eccentric billionaire character series
-   - 🎬 **Movie Trailer** - Epic cinematic trailer prompts
-   - 📺 **TV Show Runner** - Episodic TV show episodes
-   - 📺 **AI Commercials** - Transform ideas into real products with commercials
-   - 📹 **@okjason Vlog** - Authentic vlog content for @okjason character
 3. Choose your LLM provider (OpenAI, xAI, Anthropic, Google Gemini, or Ollama)
 4. Enter your API key (if using a cloud provider)
 5. Type in your video ideas
@@ -32,11 +27,6 @@ Transform your video ideas into world-class, detailed production prompts using A
 9. Copy current prompt or all 5 prompts - done!
 
 **All 7 modes available in one interface!** Just switch the dropdown.
-
-### Option 3: Direct CLI (For Power Users)
-
-- Professional mode: `python video_prompt_cli.py`
-- Comedy mode: `python video_prompt_comedy.py`
 
 ### Features
 
@@ -170,50 +160,3 @@ Perfect for:
 - Satirical commercials
 - High-energy comedic content
 - When you need a laugh with professional detail
-
-### 💰 Billionaire Mindset Mode
-Perfect for:
-- Character-driven comedy series
-- Eccentric tech billionaire character episodes
-- Motivational parody content
-- High-energy flex and hype content
-- Recurring character development
-- Satirical wealth and success content
-
-### 🎬 Movie Trailer Mode
-Perfect for:
-- Epic cinematic trailer sequences
-- Film marketing and promotion concepts
-- Dramatic storytelling in trailer format
-- Multiple trailer approaches (action, character, mystery-focused)
-- AI video generation for film projects
-- Pitch trailers for film concepts
-
-### 📺 TV Show Runner Mode
-Perfect for:
-- Episodic TV show development
-- Season arc planning with consistent characters
-- Serialized storytelling across episodes
-- Comedy sitcoms or drama series
-- Character development across episodes
-- TV production planning and pitch decks
-
-### 📺 AI Commercials Mode
-Perfect for:
-- Transforming concepts into real products
-- Product marketing and branding
-- Commercial video production (demo, lifestyle, testimonial styles)
-- Product launch videos
-- Multiple commercial approaches for same product
-- Brand storytelling and value propositions
-
-### 📹 @okjason Vlog Mode
-Perfect for:
-- Authentic vlog content creation
-- Character-driven vlog series
-- Location-based or topic-based vlogs
-- Personal storytelling and commentary
-- Current events and trending topics
-- Day-in-the-life content
-- Social media vlog content (YouTube, Instagram, TikTok)
-
