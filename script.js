@@ -239,7 +239,7 @@ function updateModeUI() {
         ideaInput.placeholder = `Enter conceptual ideas (e.g., emotions, natural phenomena, philosophical concepts, sensory experiences)...`;
         loadingText.textContent = 'Generating 5 ABSTRACT ART video pieces...';
     } else if (mode === 'viral') {
-        title.textContent = '🔥 Viral Mode Generator';
+        title.textContent = '🔥 Viral Videos';
         subtitle.textContent = 'Create highly shareable viral content';
         ideaInput.placeholder = `Enter ideas for viral content (e.g., challenges, memes, relatable moments, trends, pranks)...`;
         loadingText.textContent = 'Generating 5 VIRAL VIDEO concepts...';
