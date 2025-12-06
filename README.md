@@ -163,6 +163,13 @@ Perfect for:
 
 ---
 
+- ⭐ **Star this repo** 
+- 💬 **Share your feedback** 
+- 🎬 **Show what you've made** 
+- 🤝 **Give credit** 
+
+---
+
 ## 📄 License
 
 MIT License - Copyright (c) 2025
