@@ -4,17 +4,9 @@ Transform your video ideas into world-class, detailed production prompts using A
 
 ## 🚀 Quick Start
 
-### Option 1: Launcher (Easiest CLI Experience)
+### Web Interface
 
-1. Run the launcher: `python video_prompt_launcher.py`
-2. Choose your mode:
-   - **Professional Mode** - World-class video production prompts
-   - **Comedy Mode** - Absurdly hilarious, high-energy prompts
-3. Follow the prompts to generate your video production brief
-
-### Option 2: Web Interface (Recommended - Most User-Friendly!)
-
-1. Open `video-prompt-generator.html` in your browser
+1. Open `index.html` in your browser
 2. **Choose your Generator Mode:**
    - 🎯 **Professional Mode** - World-class production prompts
    - 🎭 **Comedy Mode** - Absurdly hilarious prompts
@@ -165,8 +157,12 @@ Perfect for:
 
 ## 📄 License
 
+
 MIT License - Copyright (c) 2025
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+
+
+
