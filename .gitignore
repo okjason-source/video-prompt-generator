@@ -31,3 +31,25 @@ Thumbs.db
 *.key
 secrets.txt
 
+# Local development files (keep local, don't push to GitHub)
+video-prompt-generator.html
+billionaire-mode.js
+tv-show-runner.js
+ai-commercials.js
+okjason-vlog.js
+abstract-art-mode.js
+product-mode.js
+video_prompt_cli.py
+video_prompt_comedy.py
+video_prompt_launcher.py
+run_cli.sh
+requirements.txt
+env.example
+example_ideas.txt
+billionairemindset.txt
+COMEDY_IDEAS_EXAMPLES.md
+HOW_TO_USE.md
+QUICK_START.md
+5249626-200.png
+sw.js
+
