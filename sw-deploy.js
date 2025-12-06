@@ -1,0 +1,56 @@
+// Service Worker for Video Prompt Generator PWA (GitHub Pages Deployment)
+const CACHE_NAME = 'video-prompt-generator-v12-gh';
+const urlsToCache = [
+  '/video-prompt-generator/',
+  '/video-prompt-generator/index.html',
+  '/video-prompt-generator/styles.css',
+  '/video-prompt-generator/script.js',
+  '/video-prompt-generator/trailer-mode.js',
+  '/video-prompt-generator/viral-mode.js',
+  '/video-prompt-generator/manifest.json',
+  '/video-prompt-generator/icon-192.png',
+  '/video-prompt-generator/icon-512.png'
+];
+
+// Install event - cache resources
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        return cache.addAll(urlsToCache);
+      })
+  );
+  self.skipWaiting();
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
+
+// Fetch event - serve from cache, fallback to network
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // Cache hit - return response
+        if (response) {
+          return response;
+        }
+        return fetch(event.request);
+      }
+    )
+  );
+});
+
