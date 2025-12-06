@@ -46,14 +46,21 @@ let currentTab = 0;
 
 // Check which modes are available and hide unavailable ones
 function initializeAvailableModes() {
+    console.log('🔍 Initializing available modes...');
     const modeSelect = document.getElementById('generatorMode');
     const options = modeSelect.querySelectorAll('option[data-requires]');
     
+    console.log('📋 Found', options.length, 'conditional modes to check');
+    
     options.forEach(option => {
         const requiredObject = option.getAttribute('data-requires');
+        const isAvailable = typeof window[requiredObject] !== 'undefined';
+        console.log(`  ${option.value}: ${requiredObject} = ${isAvailable ? '✅ Available' : '❌ Not found'}`);
+        
         // Check if the mode object exists in global scope
-        if (typeof window[requiredObject] === 'undefined') {
+        if (!isAvailable) {
             // Mode not available, remove the option
+            console.log(`  ⚠️ Removing ${option.value} - ${requiredObject} not loaded`);
             option.remove();
         }
     });
@@ -69,6 +76,8 @@ function initializeAvailableModes() {
         modeSelect.value = 'professional';
         localStorage.setItem('generatorMode', 'professional');
     }
+    
+    console.log('✅ Mode initialization complete. Available modes:', modeSelect.options.length);
 }
 
 // Tab switching function
@@ -248,10 +257,12 @@ function updateModeUI() {
     }
 }
 
-// Initialize UI on load
-initializeAvailableModes();
-updateModeUI();
-updateProviderUI();
+// Initialize UI on load - wait for all scripts to load
+window.addEventListener('load', function() {
+    initializeAvailableModes();
+    updateModeUI();
+    updateProviderUI();
+});
 
 // Update provider UI to show/hide appropriate fields
 function updateProviderUI() {
