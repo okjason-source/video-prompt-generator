@@ -1,6 +1,6 @@
 # Video Production Prompt Generator
 
-Transform your video ideas into world-class, detailed production prompts using AI-powered assistance. Perfect for directors, cinematographers, producers, and content creators working across all genres and styles.
+Transform your video ideas into world-class, detailed production prompts using AI-powered assistance.
 
 ## 🚀 Quick Start
 
